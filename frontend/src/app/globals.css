@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+  }
+}
+
+body {
+  @apply bg-surface-950 text-surface-100 antialiased;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-surface-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-surface-600;
+}
+
+/* Markdown article styling */
+.prose-writent {
+  @apply text-surface-200;
+}
+
+.prose-writent h1 {
+  @apply text-3xl font-bold text-white mb-6 mt-8;
+}
+
+.prose-writent h2 {
+  @apply text-2xl font-semibold text-white mb-4 mt-8;
+}
+
+.prose-writent h3 {
+  @apply text-xl font-semibold text-surface-100 mb-3 mt-6;
+}
+
+.prose-writent p {
+  @apply text-surface-300 mb-4 leading-relaxed;
+}
+
+.prose-writent a {
+  @apply text-brand-400 hover:text-brand-300 underline underline-offset-2;
+}
+
+.prose-writent blockquote {
+  @apply border-l-4 border-brand-500 pl-4 italic text-surface-400 my-6;
+}
+
+.prose-writent code {
+  @apply bg-surface-800 text-brand-300 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose-writent pre {
+  @apply bg-surface-800 border border-surface-700 rounded-lg p-4 overflow-x-auto my-6;
+}
+
+.prose-writent ul {
+  @apply list-disc list-inside mb-4 space-y-1 text-surface-300;
+}
+
+.prose-writent ol {
+  @apply list-decimal list-inside mb-4 space-y-1 text-surface-300;
+}
+
+.prose-writent strong {
+  @apply text-white font-semibold;
+}
+
+.prose-writent em {
+  @apply text-surface-300 italic;
+}

@@ -1,0 +1,14 @@
+services:
+  writent:
+    build: .
+    ports:
+      - "3006:3006"
+      - "4006:4006"
+    env_file:
+      - .env
+    volumes:
+      - writent-data:/app/backend
+    restart: unless-stopped
+
+volumes:
+  writent-data:

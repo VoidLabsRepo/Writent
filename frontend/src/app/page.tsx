@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchArticles, createArticle, deleteArticle, type ArticleList, type ArticleMode } from "@/lib/api";
-import { formatDate, cn } from "@/lib/utils";
-import { PipelineTracker } from "@/components/pipeline/PipelineTracker";
+import { fetchArticles, createArticle, deleteArticle } from "@/lib/api";
+import type { ArticleList, ArticleMode } from "@/lib/types";
+import { MODE_CONFIG } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import { ArticleCard } from "@/components/article/ArticleCard";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -54,18 +56,10 @@ export default function Dashboard() {
     }
   }
 
-  const statusColors = {
-    pending: "bg-surface-700 text-surface-300",
-    in_progress: "bg-amber-500/10 text-amber-400 border border-amber-500/30",
-    completed: "bg-brand-500/10 text-brand-400 border border-brand-500/30",
-    error: "bg-red-500/10 text-red-400 border border-red-500/30",
-  };
-
-  const modeLabels: Record<ArticleMode, { label: string; color: string }> = {
-    casual: { label: "Casual", color: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30" },
-    serious: { label: "Serious", color: "bg-blue-500/10 text-blue-400 border border-blue-500/30" },
-    deep_research: { label: "Deep Research", color: "bg-purple-500/10 text-purple-400 border border-purple-500/30" },
-  };
+  const modes = (Object.keys(MODE_CONFIG) as ArticleMode[]).map((value) => ({
+    value,
+    ...MODE_CONFIG[value],
+  }));
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -115,11 +109,7 @@ export default function Dashboard() {
               Writing mode
             </label>
             <div className="grid grid-cols-3 gap-2">
-              {([
-                { value: "casual" as ArticleMode, label: "Casual", desc: "Personal blog post, 1500–2500 words" },
-                { value: "serious" as ArticleMode, label: "Serious", desc: "Focused topic coverage, 2500–4000 words" },
-                { value: "deep_research" as ArticleMode, label: "Deep Research", desc: "Full research pipeline, 4000–6000 words" },
-              ]).map((mode) => (
+              {modes.map((mode) => (
                 <button
                   key={mode.value}
                   type="button"
@@ -132,7 +122,7 @@ export default function Dashboard() {
                   )}
                 >
                   <div className="text-sm font-medium">{mode.label}</div>
-                  <div className="text-xs text-surface-500 mt-0.5">{mode.desc}</div>
+                  <div className="text-xs text-surface-500 mt-0.5">{mode.description}</div>
                 </button>
               ))}
             </div>
@@ -206,55 +196,11 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-white mb-4">Your Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {articles.map((article) => (
-              <div
+              <ArticleCard
                 key={article.id}
-                onClick={() => router.push(`/article/${article.id}`)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && router.push(`/article/${article.id}`)}
-                className="text-left p-5 bg-surface-900 border border-surface-800 rounded-xl hover:border-surface-600 hover:bg-surface-800/80 transition-all duration-200 group cursor-pointer"
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <span
-                    className={cn(
-                      "px-2.5 py-0.5 rounded-full text-xs font-medium",
-                      statusColors[article.status]
-                    )}
-                  >
-                    {article.status === "in_progress"
-                      ? article.current_step || "processing"
-                      : article.status}
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className={cn(
-                        "px-2.5 py-0.5 rounded-full text-xs font-medium",
-                        modeLabels[article.article_mode || "deep_research"].color
-                      )}
-                    >
-                      {modeLabels[article.article_mode || "deep_research"].label}
-                    </span>
-                    <button
-                      onClick={(e) => handleDelete(e, article.id)}
-                      className="p-1 rounded-lg text-surface-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
-                      title="Delete article"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <h3 className="text-white font-medium mb-1 group-hover:text-brand-400 transition-colors line-clamp-2">
-                  {article.title || article.topic}
-                </h3>
-                <p className="text-sm text-surface-500 line-clamp-2">
-                  {article.topic}
-                </p>
-                <div className="mt-3 text-xs text-surface-600">
-                  {formatDate(article.created_at)}
-                </div>
-              </div>
+                article={article}
+                onDelete={handleDelete}
+              />
             ))}
           </div>
         </div>

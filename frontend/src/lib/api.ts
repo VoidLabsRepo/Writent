@@ -1,66 +1,6 @@
+import type { ArticleList, ArticleDetail, ArticleMode } from "./types";
+
 const API_BASE = "/api";
-
-export type ArticleMode = "casual" | "serious" | "deep_research";
-
-export interface ArticleList {
-  id: string;
-  topic: string;
-  title: string | null;
-  article_mode: ArticleMode;
-  status: "pending" | "in_progress" | "completed" | "error";
-  current_step: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface PipelineStep {
-  id: string;
-  name: string;
-  description: string;
-  status: "pending" | "in_progress" | "completed" | "error";
-}
-
-export interface Citation {
-  number: number;
-  title: string;
-  url: string;
-  source: string;
-  snippet: string;
-}
-
-export interface SocialPost {
-  platform: string;
-  content: string;
-  tweets?: string[];
-  hashtags?: string[];
-  type?: string;
-}
-
-export interface ArticleDetail extends ArticleList {
-  outline: Record<string, unknown> | null;
-  content_markdown: string | null;
-  content_html: string | null;
-  research_data: Record<string, unknown> | null;
-  notes: {
-    angles?: {
-      name: string;
-      description: string;
-      todos: {
-        task: string;
-        search_focus: string;
-        priority: string;
-        expected_data: string;
-        agent_type: string;
-      }[];
-    }[];
-    summary?: string;
-    total_tasks?: number;
-  } | null;
-  citations: Citation[] | null;
-  media: { url: string; type: string; alt_text: string }[] | null;
-  social_posts: Record<string, SocialPost> | null;
-  pipeline_steps: PipelineStep[];
-}
 
 export async function fetchArticles(): Promise<ArticleList[]> {
   const res = await fetch(`${API_BASE}/articles`);

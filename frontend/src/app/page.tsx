@@ -206,10 +206,13 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-white mb-4">Your Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {articles.map((article) => (
-              <button
+              <div
                 key={article.id}
                 onClick={() => router.push(`/article/${article.id}`)}
-                className="text-left p-5 bg-surface-900 border border-surface-800 rounded-xl hover:border-surface-600 hover:bg-surface-800/80 transition-all duration-200 group"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && router.push(`/article/${article.id}`)}
+                className="text-left p-5 bg-surface-900 border border-surface-800 rounded-xl hover:border-surface-600 hover:bg-surface-800/80 transition-all duration-200 group cursor-pointer"
               >
                 <div className="flex items-start justify-between mb-3">
                   <span
@@ -251,7 +254,7 @@ export default function Dashboard() {
                 <div className="mt-3 text-xs text-surface-600">
                   {formatDate(article.created_at)}
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>

@@ -97,7 +97,7 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
     );
   }
 
-  const steps = liveSteps.length > 0 ? liveSteps : article.pipeline_steps;
+  const steps = (liveSteps ?? []).length > 0 ? liveSteps : article.pipeline_steps ?? [];
   const isRunning = article.status === "in_progress";
 
   const modeConfig: Record<ArticleMode, { label: string; color: string }> = {

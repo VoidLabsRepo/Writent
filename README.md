@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✍️ Writent
+<img src="logo.svg" alt="Writent" width="400">
 
 ### *The Most Humanly AI Writer Agent*
 

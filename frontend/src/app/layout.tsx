@@ -1,32 +1,35 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { Navbar } from "@/components/Navbar";
-import { cn } from "@/lib/utils";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+});
 
 export const metadata: Metadata = {
-  title: "Writent — The Most Humanly AI Writer",
+  title: "Writent",
   description: "Multi-agent AI article writer that sounds human, not generated",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en" className={cn("dark", "font-sans", geist.variable)}>
+    <html lang="en" className={`${poppins.variable} h-full antialiased`}>
       <head>
         <link rel="icon" type="image/svg+xml" href="/icon.svg" />
       </head>
-      <body className="min-h-screen bg-surface-950">
-        <Navbar />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {children}
-        </main>
-      </body>
+      <body className="h-full font-sans">{children}</body>
     </html>
   );
 }

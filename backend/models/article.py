@@ -40,6 +40,10 @@ class Article(Base):
     # Social media
     social_posts: Mapped[dict | None] = mapped_column(JSON, default=None)
 
+    # Conversation history (pre-pipeline chat)
+    conversation_history: Mapped[list | None] = mapped_column(JSON, default=None)
+    custom_instructions: Mapped[str | None] = mapped_column(Text, default=None)
+
     # Metadata
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)

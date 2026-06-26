@@ -4,10 +4,13 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { getWsUrl } from "@/lib/api";
 
 interface StepUpdate {
-  type: "step_update" | "state";
+  type: "step_update" | "state" | "chat_search" | "article_updated";
   step?: string;
   status?: string;
   data?: Record<string, unknown>;
+  query?: string;
+  url?: string;
+  results_count?: number;
 }
 
 export function useWebSocket(

@@ -96,3 +96,5 @@ class ArticleDetail(ArticleList):
     media: dict | list | None = None
     social_posts: dict | None = None
     pipeline_steps: list[PipelineStep] = []
+    conversation_history: list[dict] | None = None
+    custom_instructions: str | None = None

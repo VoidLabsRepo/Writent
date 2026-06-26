@@ -60,17 +60,12 @@ export interface ArticleDetail extends ArticleList {
   media: { url: string; type: string; alt_text: string }[] | null;
   social_posts: Record<string, SocialPost> | null;
   pipeline_steps: PipelineStep[];
+  conversation_history?: { role: string; content: string }[];
+  custom_instructions?: string;
 }
 
 export const MODE_CONFIG: Record<ArticleMode, { label: string; color: string; description: string }> = {
-  casual: { label: "Casual", color: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30", description: "Personal blog post, 1500–2500 words" },
-  serious: { label: "Serious", color: "bg-blue-500/10 text-blue-400 border border-blue-500/30", description: "Focused topic coverage, 2500–4000 words" },
-  deep_research: { label: "Deep Research", color: "bg-purple-500/10 text-purple-400 border border-purple-500/30", description: "Full research pipeline, 4000–6000 words" },
-};
-
-export const STATUS_COLORS: Record<ArticleStatus, string> = {
-  pending: "bg-surface-700 text-surface-300",
-  in_progress: "bg-amber-500/10 text-amber-400 border border-amber-500/30",
-  completed: "bg-brand-500/10 text-brand-400 border border-brand-500/30",
-  error: "bg-red-500/10 text-red-400 border border-red-500/30",
+  casual: { label: "Casual", color: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30", description: "Personal blog post, 1500-2500 words" },
+  serious: { label: "Serious", color: "bg-blue-500/10 text-blue-400 border border-blue-500/30", description: "Focused topic coverage, 2500-4000 words" },
+  deep_research: { label: "Deep Research", color: "bg-purple-500/10 text-purple-400 border border-purple-500/30", description: "Full research pipeline, 4000-6000 words" },
 };
